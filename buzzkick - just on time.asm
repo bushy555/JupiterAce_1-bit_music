@@ -1,4 +1,4 @@
-	output "buzzkick.bin" 
+	output "buzzkick - just on time.bin" 
 
 	; BUZZKICK - "just on time".
 	;
@@ -188,6 +188,7 @@ readRow:
 .mask=$+1
 	and 0					;7
 	sub 1					;7
+	cp	$80
 	sbc a, a 				;4
        and $18                                 ;7
        out ($fe), a                             ;11
@@ -267,9 +268,12 @@ soundLoop:
 
 .ch1out=$+1
 	ld a, 0				;7
+
+
+	cp	$80
+
        out ($fe), a                     ;11
 
-	and $21 	;[7]
 	jp nz, .HP2	;[10]
 
 	in a, ($fe)	;[11]
@@ -286,8 +290,21 @@ soundLoop:
 	dec a				;4
 	jr nz, $-1			;7/12
 
+
+	cp	$80
        out ($fe), a                     ;11
+
+	and $21 	;[7]
+	jp nz, .HP3a	;[10]
+
 	in a, ($fe)	;[11]
+
+	jp .LP3a 	;[10]
+
+.HP3a:	out ($fe), a	;[11]
+
+	jp .LP3a 	;[10]
+.LP3a:
 
 .ch2:
 
@@ -308,7 +325,7 @@ soundLoop:
 	jr nz, $-1			;7/12
 
 .ch2out=$+1
-	ld a, 0				;7
+	cp	$80
        out ($fe), a                     ;11
 
 	and $21 	;[7]
@@ -328,8 +345,20 @@ soundLoop:
 	dec a				;4
 	jr nz, $-1			;7/12
 
+	cp	$80
        out ($fe), a                     ;11
+
+	and $21 	;[7]
+	jp nz, .HP3b	;[10]
+
 	in a, ($fe)	;[11]
+
+	jp .LP3b 	;[10]
+
+.HP3b:	out ($fe), a	;[11]
+
+	jp .LP3b 	;[10]
+.LP3b:
 
 .loop:
 
