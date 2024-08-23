@@ -10,14 +10,11 @@ For real hardware, a tape header would need to be added, and a .WAV file created
 
 The Ace uses the same bit 4 on port $FE as the ZX SPectrum, however requires oscillating of the speaker via this means:
 
-out ($fe),a                     ;11
-
-	and $16 	;[7]
-	jp nz,.HP	;[10]
-
-	in a,($fe)	;[11]
-	jp .LP		;[10]
-
-.HP:	out ($fe),a	;[11]
-	jp .LP		;[10]
-.LP:
+		out ($fe),a                     ;11
+		and $16 	;[7]
+		jp nz,.HP	;[10]
+		in a,($fe)	;[11]
+		jp .LP		;[10]
+	.HP:	out ($fe),a	;[11]
+		jp .LP		;[10]
+	.LP:
